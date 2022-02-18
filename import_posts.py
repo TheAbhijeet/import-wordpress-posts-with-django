@@ -13,7 +13,6 @@ from django.utils.timezone import make_aware
 from django_summernote.utils import get_attachment_model
 
 from articles.models import Article, Category
-from djangocentral.utils import clean_external_links
 from users.models import User
 
 
@@ -53,6 +52,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def get_author():
+        # Since I only had one author
         return User.objects.get(username="admin")
 
     @staticmethod
@@ -99,7 +99,8 @@ class Command(BaseCommand):
             img["srcset"] = ""
 
         for link in soup.findAll("a"):
-            if "djangocentral" not in link["href"]:
+            # replace domain_name with your domain_name
+            if "domain_name" not in link["href"]:
                 link = clean_external_links(link)
 
         return str(soup)
